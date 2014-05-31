@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Benjamin Bouguet, Damien Carduner, Paul Chaignon,
- * Eric Chauty, Xavier Fraboulet, Clement Gautrais, Ulysse Goarant.
+ * Copyright (C) 2013 Benjamin Bouguet Paul Chaignon
  *
  * DocXGenerator is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -30,7 +29,9 @@ public enum GeneratorError {
 	TEMPLATE_NOT_FOUND(9), // If the template file can't be found.
 	TEXT_MISSING(10), // If the text element in the JSON is missing.
 	IMAGES_MISSING(11), // If the images element in the JSON is missing.
-	LIST_MISSING(12); // If the list element in the JSON is missing.
+	LIST_MISSING(12), // If the list element in the JSON is missing.
+	HTML_CONVERTION_ERROR(13), // Error from docxreport about the convertion to PDF.
+	HTML_GENERATION_ERROR(14); // Error from docxreport about the generation of the PDF.
 	
 	private int code;
 	

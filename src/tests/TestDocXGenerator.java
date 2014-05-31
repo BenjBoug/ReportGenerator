@@ -23,7 +23,7 @@ import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
 
-import generator.DocXGenerator;
+import generator.ReportGenerator;
 import generator.GeneratorError;
 import junit.framework.TestCase;
 
@@ -38,7 +38,7 @@ public class TestDocXGenerator extends TestCase {
 		String jsonText = IOUtils.toString(jsonInput);
 		File template = new File("resources/test.docx");
 		String outputPath = "resources/test_result";
-		assertEquals(GeneratorError.NO_ERROR, DocXGenerator.generate(jsonText, template, outputPath));
+		assertEquals(GeneratorError.NO_ERROR, ReportGenerator.generate(jsonText, template, outputPath));
 
 		File docxFile = new File(outputPath+".docx");
 		File pdfFile = new File(outputPath+".pdf");
@@ -58,7 +58,7 @@ public class TestDocXGenerator extends TestCase {
 		String jsonText = IOUtils.toString(jsonInput);
 		File template = new File("resources/test.docx");
 		String outputPath = "resources/errored_json_result";
-		assertEquals(GeneratorError.JSON_ERROR, DocXGenerator.generate(jsonText, template, outputPath));
+		assertEquals(GeneratorError.JSON_ERROR, ReportGenerator.generate(jsonText, template, outputPath));
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class TestDocXGenerator extends TestCase {
 		String jsonText = IOUtils.toString(jsonInput);
 		File template = new File("resources/test.docx");
 		String outputPath = "resources/missing_information_result";
-		assertEquals(GeneratorError.IMAGES_MISSING, DocXGenerator.generate(jsonText, template, outputPath));
+		assertEquals(GeneratorError.IMAGES_MISSING, ReportGenerator.generate(jsonText, template, outputPath));
 	}
 	
 	/**
