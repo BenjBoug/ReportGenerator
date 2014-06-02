@@ -1,7 +1,11 @@
-package generator;
+package exception;
+
+import generator.GeneratorError;
 
 public class GeneratorException extends Exception {
 
+	private static final long serialVersionUID = 1L;
+	
 	private GeneratorError error;
 	
 	public GeneratorException(GeneratorError error, String msg) {
