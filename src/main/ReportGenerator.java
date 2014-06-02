@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2013 Benjamin Bouguet, Paul Chaignon
  *
- * DocXGenerator is free software; you can redistribute it and/or modify
+ * ReportGenerator is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation; either version 2.1 of the License, or
  * (at your option) any later version.
  *
- * DocXGenerator is distributed in the hope that it will be useful,
+ * ReportGenerator is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
@@ -35,10 +35,12 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
 
+/**
+ * Main class of ReportGeneration
+ */
 public class ReportGenerator {
 	/**
 	 * Entry point for the program.
-	 * Usage: java DocXGenerator templateFilePath outputFilePath.
 	 * Takes the variables as JSON on the standard input.
 	 * @param args Arguments from the command line.
 	 */
@@ -54,9 +56,6 @@ public class ReportGenerator {
 			String filename = cmd.getOptionValue("name", "output");
 			String output=directory+filename;
 
-			//Build the report object
-			Report report = new Report(output,cmd.getOptionValue("template"));
-
 			//Get the JSON from file if given, or get it from the standard input.
 			String jsonText=null;
 			if (!cmd.hasOption("input"))
@@ -64,7 +63,7 @@ public class ReportGenerator {
 				// Initializes the input with the standard input
 				jsonText = IOUtils.toString(System.in, "UTF-8");
 			}
-			else
+			else // read the file
 			{
 				FileInputStream inputStream = new FileInputStream(cmd.getOptionValue("input"));
 				try {
@@ -74,14 +73,13 @@ public class ReportGenerator {
 				}
 			}
 
-			//Build the data-model with the JSON
-			report.buildFromJson(jsonText);
+			//Build the report object
+			Report report = new Report(jsonText,cmd.getOptionValue("template"),output);
 
-			IGenerator generator = null;
 			//Generate the document
 			if (cmd.hasOption("all"))
 			{
-				generator = new AllGenerator(report);
+				new AllGenerator(report).generate();
 			}
 			else
 			{
@@ -93,8 +91,6 @@ public class ReportGenerator {
 					new DocGenerator(report).generate();
 			}
 			
-			generator.generate();
-			
 		} catch (IOException e) {
 			System.err.println("Error: "+e.getMessage());
 			System.exit(GeneratorError.IO_ERROR.getCode());
@@ -105,10 +101,16 @@ public class ReportGenerator {
 		System.exit(result.getCode());
 	}
 	
+	/**
+	 * Creates the options for the given arguments
+	 * @param args
+	 * @return the CommandLine with the options
+	 */
 	@SuppressWarnings("static-access")
 	public static CommandLine createOptions(String[] args)
 	{
 		CommandLine cmd=null;
+		//create the options
 		Options options = new Options();
 		options.addOption("h", "help", false, "prints the help content");
 		options.addOption(OptionBuilder.withArgName("json-file").hasArg().withDescription("input file with the JSON").withLongOpt("input").create("i"));
@@ -120,6 +122,7 @@ public class ReportGenerator {
 		options.addOption(new Option( "html", "generate output in html format" ));
 		options.addOption(new Option( "a", "all" , false, "generate output in all format (default)" ));
 
+		//parse it
 		try{
 			CommandLineParser parser = new GnuParser();
 			cmd = parser.parse(options, args);
@@ -138,7 +141,10 @@ public class ReportGenerator {
 		}
 		return cmd;
 	}
-	
+	/**
+	 * Display the help
+	 * @param options
+	 */
 	public static void displayHelp(Options options)
 	{
 		HelpFormatter formatter = new HelpFormatter();

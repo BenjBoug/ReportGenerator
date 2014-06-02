@@ -1,10 +1,27 @@
+/**
+ * Copyright (C) 2013 Benjamin Bouguet, Paul Chaignon
+ *
+ * ReportGenerator is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * ReportGenerator is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package main;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -27,6 +44,10 @@ import fr.opensagres.xdocreport.template.TemplateEngineKind;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 import generator.GeneratorError;
 
+/**
+ * @author Benjamin Bouguet
+ *
+ */
 public class Report {
 
 	private IContext context;
@@ -35,24 +56,32 @@ public class Report {
 	private File template = null;
 	private String output = null;
 	
-	public Report(String output, String template) throws GeneratorException
+	/**
+	 * Construct a report
+	 * @param output the path to the new report without extension
+	 * @param template the path to the template
+	 * @throws GeneratorException raise if the template is not a file
+	 * @throws IOException 
+	 */
+	public Report(String jsonText, String template, String output) throws GeneratorException
 	{
+		this.output=output;
 		this.template = new File(template);
 		
 		if (!this.template.isFile())
 			throw new GeneratorException(GeneratorError.PARAMETER_ERROR, "Template file does not exists.");
+		
+		buildFromJson(jsonText);
 	}
 
 
 	/**
-	 * Generates the DOCX and PDF reports with the data in the context.
+	 * Initialize the IXDocReport struct with the JSON
 	 * @param jsonText The JSON text.
-	 * @param template The template DOCX file.
-	 * @return An error code or 0 if all went well.
 	 * @throws IOException If the template or output file can't be opened or written.
 	 * @throws GeneratorException 
 	 */
-	public void buildFromJson(String jsonText) throws GeneratorException, IOException
+	private void buildFromJson(String jsonText) throws GeneratorException
 	{
 		// Parses the JSON text:
 		JSONObject json;
@@ -64,11 +93,15 @@ public class Report {
 		}
 
 		// Initializes the template file and creates the report object:
-		InputStream in = new FileInputStream(template);
 		try {
+			InputStream in = new FileInputStream(template);
 			report = XDocReportRegistry.getRegistry().loadReport(in, TemplateEngineKind.Velocity);
 		} catch (XDocReportException e) {
 			throw new GeneratorException(GeneratorError.TEMPLATE_ERROR,"Error with the template file:"+e.toString());
+		} catch (FileNotFoundException e) {
+			throw new GeneratorException(GeneratorError.PARAMETER_ERROR, "Template file does not exists.");
+		} catch (IOException e) {
+			throw new GeneratorException(GeneratorError.IO_ERROR, "I/O error...");
 		}
 
 		// Creates the FieldsMetadata.
@@ -179,34 +212,53 @@ public class Report {
 		} 
 	}
 	
-	public void convert(Options opt, OutputStream out) throws XDocConverterException, XDocReportException, IOException
+	/**
+	 * Generate the document
+	 * @param out
+	 * @throws XDocReportException
+	 * @throws IOException
+	 */
+	public void generate(String out) throws XDocReportException
 	{
-		report.convert(context, opt, out);
+		try {
+			report.process(context, new FileOutputStream(out));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+	}
+	/**
+	 * Generate the document with options
+	 * @param opt the option for this document
+	 * @param out the path of the new report WITH the extension
+	 * @throws XDocConverterException
+	 * @throws XDocReportException
+	 */
+	public void generate(Options opt, String out) throws XDocConverterException, XDocReportException
+	{
+		try {
+			report.convert(context, opt, new FileOutputStream(out));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
 	}
 	
-	public void process(OutputStream out) throws XDocReportException, IOException
-	{
-		report.process(context, out);
-	}
-	
-	public final IXDocReport getXDocReport()
-	{
-		return report;
-	}
-	
+	/**
+	 * Get the path of the new report without extension
+	 * @return a string with the path of the ouput file without extension
+	 */
 	public final String getOutput()
 	{
 		return output;
 	}
-	
-	public IContext getContext() {
-		return context;
-	}
 
-	public FieldsMetadata getMetadata() {
-		return metadata;
-	}
-
+	/**
+	 * Get the template path
+	 * @return a string with the path of the teplate file
+	 */
 	public final String getTemplate()
 	{
 		return template.getAbsolutePath();

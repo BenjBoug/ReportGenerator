@@ -1,12 +1,12 @@
 /**
- * Copyright (C) 2013 Benjamin Bouguet Paul Chaignon
+ * Copyright (C) 2013 Benjamin Bouguet, Paul Chaignon
  *
- * DocXGenerator is free software; you can redistribute it and/or modify
+ * ReportGenerator is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation; either version 2.1 of the License, or
  * (at your option) any later version.
  *
- * DocXGenerator is distributed in the hope that it will be useful,
+ * ReportGenerator is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
@@ -16,22 +16,70 @@
  */
 package generator;
 
+/**
+ * The enum for error handling.
+ */
 public enum GeneratorError {
-	NO_ERROR(0), // No error detected.
-	PARAMETER_ERROR(1), // Incorrect parameters for the program.
-	JSON_ERROR(2), // Invalid JSON
-	TEMPLATE_ERROR(3), // Error while reading the template file. 
-	CONTEXT_ERROR(4), // Error while creating the context for the report.
-	DOCX_GENERATION_ERROR(5), // Error from docxreport about the generation of the DOCX.
-	PDF_CONVERTION_ERROR(6), // Error from docxreport about the convertion to PDF.
-	PDF_GENERATION_ERROR(7), // Error from docxreport about the generation of the PDF.
-	IO_ERROR(8), // In/Out exception: file which can't be opened, written or read. 
-	TEMPLATE_NOT_FOUND(9), // If the template file can't be found.
-	TEXT_MISSING(10), // If the text element in the JSON is missing.
-	IMAGES_MISSING(11), // If the images element in the JSON is missing.
-	LIST_MISSING(12), // If the list element in the JSON is missing.
-	HTML_CONVERTION_ERROR(13), // Error from docxreport about the convertion to PDF.
-	HTML_GENERATION_ERROR(14); // Error from docxreport about the generation of the PDF.
+	/**
+	 * No error detected.
+	 */
+	NO_ERROR(0),
+	/**
+	 * Incorrect parameters for the program.
+	 */
+	PARAMETER_ERROR(1),
+	/**
+	 * Invalid JSON
+	 */
+	JSON_ERROR(2),
+	/**
+	 * Error while reading the template file. 
+	 */
+	TEMPLATE_ERROR(3),
+	/**
+	 * Error while creating the context for the report.
+	 */
+	CONTEXT_ERROR(4), 
+	/**
+	 * Error from docxreport about the generation of the DOCX.
+	 */
+	DOCX_GENERATION_ERROR(5), 
+	/**
+	 * Error from docxreport about the convertion to PDF.
+	 */
+	PDF_CONVERTION_ERROR(6), 
+	/**
+	 * Error from docxreport about the generation of the PDF.
+	 */
+	PDF_GENERATION_ERROR(7), 
+	/**
+	 * In/Out exception: file which can't be opened, written or read. 
+	 */
+	IO_ERROR(8),
+	/**
+	 * If the template file can't be found.
+	 */
+	TEMPLATE_NOT_FOUND(9),
+	/**
+	 * If the text element in the JSON is missing.
+	 */
+	TEXT_MISSING(10),
+	/**
+	 * If the images element in the JSON is missing.
+	 */
+	IMAGES_MISSING(11),
+	/**
+	 * If the list element in the JSON is missing.
+	 */
+	LIST_MISSING(12),
+	/**
+	 * Error from docxreport about the convertion to PDF.
+	 */
+	HTML_CONVERTION_ERROR(13),
+	/**
+	 * Error from docxreport about the generation of the PDF.
+	 */
+	HTML_GENERATION_ERROR(14);
 	
 	private int code;
 	
