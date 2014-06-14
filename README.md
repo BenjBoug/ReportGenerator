@@ -3,6 +3,9 @@ ReportGenerator
 
 ReportGenerator is a simple command line tool to generate document in DocX, PDF and HTML from a template file and JSON data.
 
+You just have to give the path of a template file ([how to build it](https://code.google.com/p/xdocreport/wiki/DocxDesignReport)) and give 
+the data in JSON format to create the merged document in the format you want.
+
 Usage
 ===============
 
@@ -50,7 +53,9 @@ Examples
  References
 ===============
 
- - https://code.google.com/p/xdocreport/
- - https://code.google.com/p/json-simple/
- 
- - https://github.com/pchaigno/ProjetVaR
+ - [XDocReport](https://code.google.com/p/xdocreport/)
+   - The main library used for merging template and data, and for generating document.
+ - [simple-json](https://code.google.com/p/json-simple/)
+   - Used for decoding the JSON in input.
+ - [VaRSoft](https://github.com/pchaigno/ProjetVaR)
+   - The school project where this command line tool was wrote and used at the beginning.
