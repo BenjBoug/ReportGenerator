@@ -18,17 +18,29 @@ package exception;
 
 import generator.GeneratorError;
 
+/**
+ * Exceptions thrown by the generator
+ * @author Benjamin Bouguet
+ *
+ */
 public class GeneratorException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 	
 	private GeneratorError error;
 	
+	/**
+	 * @param error the errorCode
+	 * @param msg the message of the error
+	 */
 	public GeneratorException(GeneratorError error, String msg) {
 		super(msg);
 		this.error=error;
 	}
 
+	/**
+	 * @return the type of Error
+	 */
 	public GeneratorError getError() {
 		return error;
 	}

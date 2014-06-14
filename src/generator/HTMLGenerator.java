@@ -17,8 +17,6 @@
 package generator;
 
 import java.io.File;
-import java.io.IOException;
-
 import main.Report;
 
 import org.apache.poi.xwpf.converter.core.FileImageExtractor;
