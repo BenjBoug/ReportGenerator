@@ -116,22 +116,19 @@ public class Report {
 
 		// Adds the data from the JSON to the report context:
 		JSONObject textObject = (JSONObject)json.get("text");
-		if(textObject == null) {
-			throw new GeneratorException(GeneratorError.TEXT_MISSING,"Text element missing in JSON.");
+		if(textObject != null) {
+			computeText(textObject);
 		}
-		computeText(textObject);
 		
 		JSONObject imagesObject = (JSONObject)json.get("images");
-		if(imagesObject == null) {
-			throw new GeneratorException(GeneratorError.IMAGES_MISSING,"Images element missing in JSON.");
+		if(imagesObject != null) {
+			computeImages(imagesObject);
 		}
-		computeImages(imagesObject);
 		
 		JSONObject listObject = (JSONObject)json.get("list");
-		if(listObject == null) {
-			throw new GeneratorException(GeneratorError.LIST_MISSING,"List element missing in JSON.");
+		if(listObject != null) {
+			computeList(listObject);
 		}
-		computeList(listObject);
 
 		// Links the FieldsMetaData to the report.
 		report.setFieldsMetadata(metadata);
