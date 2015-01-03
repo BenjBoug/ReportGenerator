@@ -16,7 +16,7 @@
  */
 package generator;
 
-import main.Report;
+import report.Report;
 import exception.GeneratorException;
 import fr.opensagres.xdocreport.converter.ConverterTypeTo;
 import fr.opensagres.xdocreport.converter.ConverterTypeVia;

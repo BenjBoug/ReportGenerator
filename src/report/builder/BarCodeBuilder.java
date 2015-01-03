@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Benjamin Bouguet, Paul Chaignon
+ * Copyright (C) 2013 Benjamin Bouguet
  *
  * ReportGenerator is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -14,33 +14,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package generator;
+package report.builder;
 
-import report.Report;
-import exception.GeneratorException;
+import org.json.simple.JSONObject;
+
+import fr.opensagres.xdocreport.template.IContext;
+import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 
 /**
- * Generate the document with al format available
  * @author Benjamin Bouguet
+ *
  */
-public class AllGenerator implements IGenerator {
-	
-	private Report report;
-	
-	/**
-	 * Constructor
-	 * @param report The report to generate
-	 */
-	public AllGenerator(Report report)
-	{
-		this.report=report;
-	}
+public class BarCodeBuilder implements IContextBuilder {
 
 	@Override
-	public void generate() throws GeneratorException {
-		new HTMLGenerator(report).generate();
-		new PDFGenerator(report).generate();
-		new DocGenerator(report).generate();
+	public void build(JSONObject json, FieldsMetadata metadata, IContext context) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

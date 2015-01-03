@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Benjamin Bouguet, Paul Chaignon
+ * Copyright (C) 2013 Benjamin Bouguet
  *
  * ReportGenerator is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -14,33 +14,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package generator;
-
-import report.Report;
-import exception.GeneratorException;
+package report.builder;
 
 /**
- * Generate the document with al format available
  * @author Benjamin Bouguet
+ *
  */
-public class AllGenerator implements IGenerator {
-	
-	private Report report;
-	
+public class BuilderFactory {
+
 	/**
-	 * Constructor
-	 * @param report The report to generate
+	 * Create the builder for the given string (type of data)
+	 * @param str the type of data
+	 * @return the builder associate to the type of data
 	 */
-	public AllGenerator(Report report)
+	public static IContextBuilder getBuilder(String str)
 	{
-		this.report=report;
+		if (str.equals("text"))
+			return new TextBuilder();
+		else if (str.equals("image"))
+			return new ImageBuilder();
+		else if (str.equals("list"))
+			return new ListBuilder();
+		else if (str.equals("barcode"))
+			return new BarCodeBuilder();
+		else 
+			return new TextBuilder();
 	}
-
-	@Override
-	public void generate() throws GeneratorException {
-		new HTMLGenerator(report).generate();
-		new PDFGenerator(report).generate();
-		new DocGenerator(report).generate();
-	}
-
 }

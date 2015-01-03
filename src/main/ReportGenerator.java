@@ -35,6 +35,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
 
+import report.Report;
+
 /**
  * Main class of ReportGeneration
  */

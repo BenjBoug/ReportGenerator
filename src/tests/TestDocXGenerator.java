@@ -18,18 +18,15 @@ package tests;
 
 import exception.GeneratorException;
 import generator.AllGenerator;
-import generator.GeneratorError;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
 import junit.framework.TestCase;
-import main.Report;
-import main.ReportGenerator;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+
+import report.Report;
 
 /**
  *

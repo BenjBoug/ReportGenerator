@@ -17,11 +17,12 @@
 package generator;
 
 import java.io.File;
-import main.Report;
 
 import org.apache.poi.xwpf.converter.core.FileImageExtractor;
 import org.apache.poi.xwpf.converter.core.FileURIResolver;
 import org.apache.poi.xwpf.converter.xhtml.XHTMLOptions;
+
+import report.Report;
 
 import exception.GeneratorException;
 import fr.opensagres.xdocreport.converter.ConverterTypeTo;
